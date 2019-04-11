@@ -8,11 +8,7 @@ function every(arr, predicate) {
 }
 
 function everyWithSome(arr, predicate) {
-    if (arr.length == 0) {
-        return;
-    }
-
-    return arr.some(e => predicate(e)) && everyWithSome(arr, predicate);
+    return !arr.some(e => !predicate(e));
 }
 
 const odd = [3, 5, 7, 9, 11];
@@ -21,4 +17,4 @@ const mix = even.concat(odd).sort();
 
 const checkEven = (n) => n % 2 == 0;
 
-console.log(every(mix, checkEven));
+console.log(everyWithSome(even, checkEven));
