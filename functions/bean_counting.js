@@ -13,4 +13,4 @@ const countBs = function (word) {
     return countChar(word, "B");
 }
 
-console.log(countBs("BanBoula"));
+console.log(countChar("kakkerlak", "k"));

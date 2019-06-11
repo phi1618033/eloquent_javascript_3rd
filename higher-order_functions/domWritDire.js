@@ -1,9 +1,11 @@
 const SCRIPTS = require('./scripts.js');
 
-function characterWritingDirection(charCode) {
+const TEXT = 'Al Jazeera, est une chaîne de télévision\nتفيد التقارير بأن قادة الجيش السوداني يعكفون منذ فجر اليوم';
+
+function writingDirection(char) {
     for (const script of SCRIPTS) {
         if (script.ranges.some(([from, to]) => {
-            return code >= from && code < to;
+            return char.codePointAt(0) >= from && char.codePointAt(0) < to;
         })) {
             return script.direction;
         }
@@ -11,13 +13,13 @@ function characterWritingDirection(charCode) {
     return undefined;
 }
 
-function countBy(chars, writingDirection) {
+function countBy(chars, groupDirection) {
     let counts = [];
     for (const char of chars) {
-        let direction = writingDirection(char);
-        let known = counts.filter((c) => c.direction == direction);
+        let direction = groupDirection(char);
+        let known = counts.findIndex((c) => c.direction == direction);
         if (known == -1) {
-            counts.push({direction, count: 1});
+            counts.push({ direction, count: 1 });
         } else {
             counts[known].count++;
         }
@@ -25,4 +27,14 @@ function countBy(chars, writingDirection) {
     return counts;
 }
 
-// function dominantWritingDirection()
+function dominantWritingDirection(text) {
+    let directions = countBy(text, (char) => writingDirection(char)).filter(({ direction }) => direction != undefined);
+
+    let dominantDirection = directions.reduce((dominant, direction) => {
+        return direction.count > dominant.count ? direction : dominant;
+    });
+
+    return dominantDirection;
+}
+
+console.log(dominantWritingDirection(TEXT));
