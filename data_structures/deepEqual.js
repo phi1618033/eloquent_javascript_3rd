@@ -89,4 +89,4 @@ const F = {
     weight: 65
 }
 
-console.log(deepEqual(C, D));
+console.log(deepEqual(E, F));
